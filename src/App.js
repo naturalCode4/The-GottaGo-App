@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react'
+import Bathroom from './Components/Bathroom'
+import GoogleMap from './Components/GoogleMap';
+
 
 function App() {
+
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [selectedBathroom, setSelectedBathroom] = useState(null);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <GoogleMap
+          setModalIsOpen={setModalIsOpen}
+          setSelectedBathroom={setSelectedBathroom}
+          />
+        <Bathroom
+          setModalIsOpen={setModalIsOpen}
+          modalIsOpen={modalIsOpen}
+          setSelectedBathroom={setSelectedBathroom}
+          selectedBathroom={selectedBathroom}
+        />
     </div>
   );
 }
