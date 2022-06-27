@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+#header {
+  position: relative;
+}
+
+#login-button {
+  position: absolute;
+  top: 0vh;
+  right: 2vw;
+  height: 30%;
+}

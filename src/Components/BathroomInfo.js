@@ -1,11 +1,19 @@
-const BathroomInfo = ({ selectedBathroom }) => { //this prop not passed in yet
+const {getBathroomInfo} = require('../APIRequests/APIRequests')
+
+const BathroomInfo = ({selectedBathroom}) => { //this prop not passed in yet
+    
+    getBathroomInfo(selectedBathroom.id)
+    
     return (
         <div>
             <h2>{selectedBathroom.name}</h2>
+            <img src='http://placekitten.com/200/300' alt='no kitty available'/>
             <ul>
-                <li>more info</li>
-                <li>even more info</li>
-                <li>there will be yet more info</li>
+                <li>Rating: ______</li>
+                <li>Address: ______</li>
+                <li>Cleanliness: ______</li>
+                <li>Crowdedness: ______</li>
+                <li>Type: ______</li>
             </ul>
         </div>
     )

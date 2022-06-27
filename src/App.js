@@ -1,28 +1,41 @@
 import './App.css';
-import {useState} from 'react'
+import {useState, memo, useEffect} from 'react'
 import Bathroom from './Components/Bathroom'
 import GoogleMap from './Components/GoogleMap';
-
+import Header from './Components/Header';
+import { getBathrooms } from './APIRequests/APIRequests';
 
 function App() {
 
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [bathroomModalIsOpen, setBathroomModalIsOpen] = useState(false)
   const [selectedBathroom, setSelectedBathroom] = useState(null);
+  // const [bathrooms, setBathrooms] = useState([]);
 
+  async useEffect(() => {
+    try {
+      const bathrooms = await getBathrooms()
+      console.log(bathrooms)
+    } catch (e) {
+      console.log('There was an error ==> ', e)
+    }
+  }, [])
+  
+  console.log('render App');
   return (
     <div className="App">
+        <Header/>
         <GoogleMap
-          setModalIsOpen={setModalIsOpen}
+          setBathroomModalIsOpen={setBathroomModalIsOpen}
           setSelectedBathroom={setSelectedBathroom}
+          bathrooms={bathrooms}
           />
         <Bathroom
-          setModalIsOpen={setModalIsOpen}
-          modalIsOpen={modalIsOpen}
-          setSelectedBathroom={setSelectedBathroom}
+          setBathroomModalIsOpen={setBathroomModalIsOpen}
+          bathroomModalIsOpen={bathroomModalIsOpen}
           selectedBathroom={selectedBathroom}
         />
     </div>
   );
 }
 
-export default App;
+export default memo(App);
