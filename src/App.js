@@ -3,36 +3,43 @@ import {useState, memo, useEffect} from 'react'
 import Bathroom from './Components/Bathroom'
 import GoogleMap from './Components/GoogleMap';
 import Header from './Components/Header';
-import { getBathrooms } from './APIRequests/APIRequests';
+import axios from 'axios'
 
 function App() {
 
-  const [bathroomModalIsOpen, setBathroomModalIsOpen] = useState(false)
+  const [bathroomDrawerIsOpen, setBathroomDrawerIsOpen] = useState(false)
   const [selectedBathroom, setSelectedBathroom] = useState(null);
-  // const [bathrooms, setBathrooms] = useState([]);
+  const [bathrooms, setBathrooms] = useState([]);
 
-  async useEffect(() => {
-    try {
-      const bathrooms = await getBathrooms()
-      console.log(bathrooms)
-    } catch (e) {
-      console.log('There was an error ==> ', e)
-    }
+  const getBathrooms = () => {
+       axios.get('http://localhost:4147/getbathrooms')
+       .then(res => {
+          console.log('getbathrooms data:', res.data[0])
+          setBathrooms(res.data[0])
+       })
+       .catch(error => console.log(error))
+  }
+ 
+  useEffect(() => {
+    getBathrooms()
   }, [])
-  
+
   console.log('render App');
   return (
     <div className="App">
         <Header/>
         <GoogleMap
-          setBathroomModalIsOpen={setBathroomModalIsOpen}
+          setBathroomDrawerIsOpen={setBathroomDrawerIsOpen}
           setSelectedBathroom={setSelectedBathroom}
           bathrooms={bathrooms}
           />
         <Bathroom
-          setBathroomModalIsOpen={setBathroomModalIsOpen}
-          bathroomModalIsOpen={bathroomModalIsOpen}
+          setBathroomDrawerIsOpen={setBathroomDrawerIsOpen}
+          bathroomDrawerIsOpen={bathroomDrawerIsOpen}
           selectedBathroom={selectedBathroom}
+          setSelectedBathroom={setSelectedBathroom}
+          bathrooms={bathrooms}
+          setBathrooms={setBathrooms}
         />
     </div>
   );

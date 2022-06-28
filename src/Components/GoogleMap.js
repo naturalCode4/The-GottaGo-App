@@ -1,60 +1,72 @@
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import {GoogleApiWrapper, Map, Marker} from 'google-maps-react';
+import BathroomModeButton from './BathroomModeButton';
 // import {} from 'react-geocode'
 
-// const bathrooms = [
+// const mockBathrooms = [
 //     { id: 1,
-//     lat: 40.016162,
-//     lng: -105.262349,
+//     latitude: 40.016162,
+//     longitude: -105.262349,
 //     name: 'The Root Kava Co.'
 //     },
 //     { id: 2,
-//     lat: 39.9929,
-//     lng: -105.232530,
+//     latitude: 39.9929,
+//     longitude: -105.232530,
 //     name: 'The Sioux'
 //     },
 //     { id: 3,
-//     lat: 39.998650,
-//     lng: -105.235080,
+//     latitude: 39.998650,
+//     longitude: -105.235080,
 //     name: 'Safeway'
 //     },
 //     { id: 4,
-//     lat: 40.018280,
-//     lng: -105.278470,
+//     latitude: 40.018280,
+//     longitude: -105.278470,
 //     name: 'Pearl Street Public Restrooms'
 //     }
 // ]
 
-const GoogleMap = ({setSelectedBathroom, setBathroomModalIsOpen, google, bathrooms}) => {
+const GoogleMap = ({setSelectedBathroom, setBathroomDrawerIsOpen, google, bathrooms}) => {
+
+    const [addBathroomMode, setAddBathroomMode] = useState(false)
 
     const onMarkerClick = (bathroom) => {
         console.log(bathroom)
         setSelectedBathroom(bathroom)
-        setBathroomModalIsOpen(true)
+        setBathroomDrawerIsOpen(true)
     }
 
     const markBathrooms = (bathrooms) => {
         return bathrooms.map(bathroom => 
             <Marker 
                 name={bathroom.name}
-                position={{lat: bathroom.lat, lng: bathroom.lng}}
+                position={{lat: bathroom.latitude, lng: bathroom.longitude}}
+                //other info too
                 onClick={() => onMarkerClick(bathroom)}
             />
         )
     }
+    
     console.log('render GoogleMap');
+
     return (
-        <Map
-            google={google}
-            zoom={12}
-            initialCenter={{
-                lat: 39.992900,
-                lng: -105.232530
-            }}
-            style={{width: '100%', height: '100%', position: 'relative'}}
-        >
-            {/* {markBathrooms(bathrooms)} */}
-        </Map>
+        <div>
+            <Map
+                google={google}
+                zoom={12}
+                initialCenter={{
+                    lat: 39.992900,
+                    lng: -105.232530
+                }}
+                style={{width: '100%', height: '100%', position: 'relative'}}
+            >
+                {markBathrooms(bathrooms)}
+            </Map>
+            <BathroomModeButton 
+                addBathroomMode={addBathroomMode}
+                setAddBathroomMode={setAddBathroomMode}
+            />
+        </div>
     )
 }
 

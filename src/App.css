@@ -41,9 +41,18 @@
   position: relative;
 }
 
-#login-button {
+#login_button {
   position: absolute;
   top: 0vh;
   right: 2vw;
   height: 30%;
+}
+
+.create_bathroom {
+  position: absolute;
+  top: 0vh;
+  left: 2vw;
+  height: 30%;
+  width: 15%;
+  font-size: 2.5vw;
 }

@@ -4,17 +4,17 @@ import { useState } from 'react'
 import BathroomInfo from './BathroomInfo'
 import CreateReview from './CreateReview'
 
-const Bathroom = ({selectedBathroom, setBathroomModalIsOpen, bathroomModalIsOpen}) => {
+const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpen, bathroomDrawerIsOpen, setBathrooms, bathrooms}) => {
         
-    const [reviewModalIsOpen, setReviewModalIsOpen] = useState(false)
+    const [reviewDrawerIsOpen, setReviewDrawerIsOpen] = useState(false)
 
     return (
     <div>
         <SwipeableDrawer
             anchor='bottom'
             onOpen={() => {}}
-            onClose={() => setBathroomModalIsOpen(false)}
-            open={bathroomModalIsOpen}
+            onClose={() => setBathroomDrawerIsOpen(false)}
+            open={bathroomDrawerIsOpen}
             PaperProps={{
                 style:{ minHeight: '40%' }
             }}
@@ -22,23 +22,29 @@ const Bathroom = ({selectedBathroom, setBathroomModalIsOpen, bathroomModalIsOpen
             <BathroomInfo selectedBathroom={selectedBathroom} />
 
             <button onClick={() => {
-                reviewModalIsOpen===false ? setReviewModalIsOpen(true) : setReviewModalIsOpen(false) }}
+                reviewDrawerIsOpen===false ? setReviewDrawerIsOpen(true) : setReviewDrawerIsOpen(false) }}
                 >Leave a Review!
             </button>
         </SwipeableDrawer>
         <SwipeableDrawer
             anchor='left'
-            onOpen={() => setBathroomModalIsOpen(false)}
+            onOpen={() => setBathroomDrawerIsOpen(false)}
             onClose={() => {
-                setReviewModalIsOpen(false)
-                setBathroomModalIsOpen(true)
+                setReviewDrawerIsOpen(false)
+                setBathroomDrawerIsOpen(true)
             }}
-            open={reviewModalIsOpen}
+            open={reviewDrawerIsOpen}
             PaperProps={{
                 style:{ maxWidth: '60%' }
             }}
         >
-            <CreateReview selectedBathroom={selectedBathroom}/>
+            <CreateReview 
+                selectedBathroom={selectedBathroom}
+                setSelectedBathroom={setSelectedBathroom}
+                bathrooms={bathrooms}
+                setReviewDrawerIsOpen={setReviewDrawerIsOpen}
+                setBathrooms={setBathrooms}
+            />
         </SwipeableDrawer>
 
     </div>

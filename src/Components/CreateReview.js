@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
-const {postReviewAndUpdateBathroom} = require('../APIRequests/APIRequests')
+const {postReviewAndUpdateBathroom, updateNewlyReviewedBathroom} = require('../APIRequests/APIRequests')
 
-const CreateReview = ({selectedBathroom}) => {
+const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathroom, setBathrooms, bathrooms}) => {
 
     const [overallRating, setOverallRating] = useState(null)
     const [cleanlinessRating, setCleanlinessRating] = useState(null)
@@ -24,12 +24,36 @@ const CreateReview = ({selectedBathroom}) => {
     const [submission, setSubmission] = useState({})
     const [textPlaceholder, setTextPlaceholder] = useState('')
 
-    const handleSubmit = e => {
+    // const postReviewAndUpdateBathroom = async (newReview) => {
+    //     axios.post('http://localhost:4147/postreviewandupdatebathroom', newReview)
+    //     // const res = await axios.pos..... is quivolent to .then(res ......)
+    //     .then(res => setSelectedBathroom(res))
+    //     .catch(error => console.log(error))
+    // }
+
+
+    //replace the selected bathrooms in the bathroomsarray with updatedbathroom
+    const replaceSelectedBathroomInBathroomArrayWithUpdatedBathroom = () => {
+        // index into bathrooms array at selectedBathroom
+        // replace that item
+        // 
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setSubmission(newReview)
         console.log('submission: ', submission)
-        console.log('pre-postReview')
-        postReviewAndUpdateBathroom(newReview)
+        // updateNewlyReviewedBathroom()
+        const updatedBathroom = await postReviewAndUpdateBathroom(newReview)
+        console.log('updatedBathroom', updatedBathroom) 
+        setSelectedBathroom(updatedBathroom)
+        replaceSelectedBathroomInBathroomArrayWithUpdatedBathroom()
+        setBathrooms([...bathrooms])
+        //^we want to select the current bathroom. how will we do that? 
+        //This currently wont work because there might be skipped bathrooms if one is deleted
+        //okay just used selected bathroom. baruch hashem. will this work? then take the bathrooms prop out
+        // finally, line 33 wont work because it doesnt have the new information
+        setReviewDrawerIsOpen(false)
     }
 
     const generateReviewPlaceholder = () => {
@@ -123,13 +147,13 @@ const CreateReview = ({selectedBathroom}) => {
                 <label for='lots'>Lots of people</label>
                 <br></br>
 
-                <input type='radio' name='crowdedness-rating' value='2'
+                <input type='radio' name='crowdedness-rating' value='3'
                     onChange={e=>setCrowdednessRating(e.target.value)}>
                 </input>
                 <label for='few'>Just a few people</label>
                 <br></br>
 
-                <input type='radio' name='crowdedness-rating' value='3'
+                <input type='radio' name='crowdedness-rating' value='5'
                     onChange={e=>setCrowdednessRating(e.target.value)}>
                 </input>
                 <label for='private'>Private</label>
@@ -180,7 +204,7 @@ const CreateReview = ({selectedBathroom}) => {
             <p>Your Review</p>
             <textarea 
                 placeholder={textPlaceholder}
-                maxlength='255'
+                maxLength='255'
                 style={{width: '95%'}}
                 onChange={e => setTextReview(e.target.value)}
             />
