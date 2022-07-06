@@ -3,10 +3,14 @@ import { SwipeableDrawer } from '@mui/material'
 import { useState } from 'react'
 import BathroomInfo from './BathroomInfo'
 import CreateReview from './CreateReview'
+import Reviews from './Reviews'
 
 const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpen, bathroomDrawerIsOpen, setBathrooms, bathrooms}) => {
         
+    console.log('hippeehippeehiii ', selectedBathroom)
+
     const [reviewDrawerIsOpen, setReviewDrawerIsOpen] = useState(false)
+    const [allReviewsDrawerIsOpen, setAllReviewsDrawerIsOpen] = useState(false)
 
     return (
     <div>
@@ -16,13 +20,17 @@ const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpe
             onClose={() => setBathroomDrawerIsOpen(false)}
             open={bathroomDrawerIsOpen}
             PaperProps={{
-                style:{ minHeight: '40%' }
+                style:{ minHeight: '40%', maxHeight: '60%' }
             }}
         >
             <BathroomInfo selectedBathroom={selectedBathroom} />
 
             <button onClick={() => {
-                reviewDrawerIsOpen===false ? setReviewDrawerIsOpen(true) : setReviewDrawerIsOpen(false) }}
+                allReviewsDrawerIsOpen===false ? setAllReviewsDrawerIsOpen(true) : setAllReviewsDrawerIsOpen(false)}}
+                >See All Reviews!
+            </button>
+            <button onClick={() => {
+                reviewDrawerIsOpen===false ? setReviewDrawerIsOpen(true) : setReviewDrawerIsOpen(false)}}
                 >Leave a Review!
             </button>
         </SwipeableDrawer>
@@ -35,7 +43,7 @@ const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpe
             }}
             open={reviewDrawerIsOpen}
             PaperProps={{
-                style:{ maxWidth: '60%' }
+                style:{ maxWidth: '80%' }
             }}
         >
             <CreateReview 
@@ -45,6 +53,19 @@ const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpe
                 setReviewDrawerIsOpen={setReviewDrawerIsOpen}
                 setBathrooms={setBathrooms}
             />
+        </SwipeableDrawer>
+        <SwipeableDrawer
+            anchor='bottom'
+            onOpen={() => {}}
+            onClose={() => {
+                setAllReviewsDrawerIsOpen(false)
+            }}
+            open={allReviewsDrawerIsOpen}
+            PaperProps={{
+                style:{minHeight: '32%', maxHeight: '60%'}
+            }}
+            >
+            <Reviews selectedBathroom={selectedBathroom}/>
         </SwipeableDrawer>
 
     </div>

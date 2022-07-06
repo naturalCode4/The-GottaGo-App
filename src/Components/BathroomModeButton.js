@@ -1,11 +1,13 @@
+import { useState } from 'react'
+
 const BathroomModeButton = ({addBathroomMode, setAddBathroomMode}) => {
+
+    console.log('addBathroomMode', addBathroomMode)
+
     return (
-        <button 
-            onClick={() => {
-                console.log('add bathroom mode')
-                !addBathroomMode ? setAddBathroomMode(true) : setAddBathroomMode(false)
-        }}
-        >Add a Bathroom</button>
+        <button id='bathroom_mode_button'
+            onClick={() => {!addBathroomMode ? setAddBathroomMode(true) : setAddBathroomMode(false)}}
+        >{addBathroomMode ? '-' : '+'}</button>
     )
 }
 

@@ -1,11 +1,8 @@
-import axios from 'axios'
-
-const BathroomInfo = ({selectedBathroom}) => { //this prop not passed in yet
+const BathroomInfo = ({selectedBathroom}) => {
     
         const {
             bathroom_id: id,
-            latitude,
-            longitude,
+            bathroom_address,
             bathroom_name,
             ave_overall,
             ave_cleanliness,
@@ -23,16 +20,14 @@ const BathroomInfo = ({selectedBathroom}) => { //this prop not passed in yet
     // getBathroomInfo(selectedBathroom.id)
     
     return (
-        <div>
-            <h2>{selectedBathroom.name}</h2>
-            <img src='http://placekitten.com/200/300' alt='no kitty available'/>
+        <div className="bathroom_info">
+            <h2>{bathroom_name}</h2>
             <ul>
-                <li><b>Name:</b> {bathroom_name}</li>
-                <li><b>Overall Rating:</b> {ave_overall} Stars</li>
-                <li><b>Cleanliness Rating:</b> {ave_cleanliness} Stars</li>
-                <li><b>Privateness Rating:</b> {ave_crowdedness} Stars</li>
-                <li><b>Type:</b> {top_category}</li>
-                {/* <li><b>Address:</b> {address ? address : 'no address available. see map marker'}</li> */}
+                <li><b>Overall Rating:</b> {Math.round(ave_overall * 100) / 100} Stars</li>
+                <li><b>Cleanliness Rating:</b> {Math.round(ave_cleanliness * 100) / 100} Stars</li>
+                <li><b>Privateness Rating:</b> {Math.round(ave_crowdedness * 100) / 100} Stars</li>
+                <li><b>Users Most Often Describe As:</b> {top_category}</li>
+                <li><b>Address:</b> {bathroom_address ? bathroom_address : 'No one has added it yet'}</li>
             </ul>
         </div>
     )

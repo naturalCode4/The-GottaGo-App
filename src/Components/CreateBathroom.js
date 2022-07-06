@@ -1,48 +1,56 @@
 import { useState, useEffect } from 'react'
+import {Map} from 'google-maps-react';
+const {postNewBathroomData, postReviewData} = require('../APIRequests/APIRequests')
 
-const {postReviewAndUpdateBathroom} = require('../APIRequests/APIRequests')
+// const mapClickHandler = (mapProps, map, positionInfo) => {
+//     console.log('mapClicked: ', positionInfo)
+//     console.log(positionInfo.latLng.lat(), positionInfo.latLng.lng())
+// }
 
-const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathroom, setBathrooms, bathrooms}) => {
+const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen, latitudeAndLongitudeOnDragend, setAddBathroomMode, selectedBathroom, setSelectedBathroom}) => {
 
+    const [bathroomNameText, setBathroomNameText] = useState(null)
+    const [bathroomAddressText, setBathroomAddressText] = useState(null)
     const [overallRating, setOverallRating] = useState(null)
     const [cleanlinessRating, setCleanlinessRating] = useState(null)
     const [crowdednessRating, setCrowdednessRating] = useState(null)
     const [type, setType] = useState(null)
     const [textReview, setTextReview] = useState(null)
+    let latitude = null
+    let longitude = null
 
-    const [reviewSubmission, setReviewSubmission] = useState({})
+    const [bathroomSubmission, setBathroomSubmission] = useState({})
     const [textPlaceholder, setTextPlaceholder] = useState('')
-    
-    const newReview = {
+
+    const newBathroomData = {
+        latitude, 
+        longitude,
+        bathroomNameText,
+        bathroomAddressText,
         overallRating,
         cleanlinessRating,
         crowdednessRating,
         type,
         textReview,
-        bathroom_id: selectedBathroom.id,
+        // bathroom_id: selectedBathroom.id
+        // ^^^^gotta tell it what id is somehow. cant use selected bathroom because thats for existing bathrooms
     }
-
-    // const postReviewAndUpdateBathroom = async (newReview) => {
-    //     axios.post('http://localhost:4147/postreviewandupdatebathroom', newReview)
-    //     // const res = await axios.pos..... is quivolent to .then(res ......)
-    //     .then(res => setSelectedBathroom(res))
-    //     .catch(error => console.log(error))
-    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setReviewSubmission(newReview)
-        setReviewDrawerIsOpen(false)
-        console.log('newReview', newReview)
-        const updatedBathroom = await postReviewAndUpdateBathroom(newReview)
-        console.log('updatedBathroom', updatedBathroom) 
-        bathrooms[bathrooms.indexOf(selectedBathroom)] = updatedBathroom
-        setSelectedBathroom(updatedBathroom)
-        setBathrooms([...bathrooms])
+        setCreateBathroomDrawerIsOpen(false)
+        newBathroomData.latitude = latitudeAndLongitudeOnDragend.lat
+        newBathroomData.longitude = latitudeAndLongitudeOnDragend.lng
+        setBathroomSubmission(newBathroomData)
+        console.log('Submitting newBathroomData: ', newBathroomData)
+        const returnedNewBathroom = await postNewBathroomData(newBathroomData)
+        setBathrooms([...bathrooms, returnedNewBathroom.data])
+        setAddBathroomMode(false)
     }
 
+    //gotta raise this prop because its used in CreateReview too
     const generateReviewPlaceholder = () => {
-        const placeholders=["How's the bathroom?", 'PLEASE Tell us about your experience', 'Write your review here', 'What say you?','Is this throne fit for a queen?', 'Please tell the world about this bathroom','Hows the bathroom treating you?', 'Is it smelly?','The people need to hear your expertise', "How's the John?", 'My notes...']
+        const placeholders=["How's the bathroom?", 'PLEASE Tell us about your experience', 'Write a review', 'What say you?','Is this throne fit for a queen?', 'Please tell the world about this bathroom','Hows the bathroom treating you?', 'Is it smelly?','The people need to hear your expertise', "How's the john?"]
         const randomIndex = Math.floor(Math.random()*10)
         return placeholders[randomIndex]
     }
@@ -53,8 +61,26 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
 
     return (
         <form onSubmit={handleSubmit} className="review">
-            <h2>Write Your Review</h2>
+            <h2>Mark a bathroom, for the people!</h2>
             <br></br>
+
+            <p>What should we call this bathroom?</p>
+            <input 
+                type='text' 
+                style={{width: '95%'}}
+                placeholder="E.g. 'Chipotle', 'Whole Foods', 'Denver Art Museum', Etc."
+                onChange={e => setBathroomNameText(e.target.value)}
+            ></input>
+
+            <p>Do you have an address for this bathroom?</p>
+            <textarea 
+                maxLength='150'
+                style={{width: '95%'}}
+                placeholder="Let us know the address here"
+                onChange={e => setBathroomAddressText(e.target.value)}>
+            </textarea>
+
+
             <p>Rate this bathroom overall</p>
             <fieldset>
 
@@ -146,10 +172,11 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
 
             </fieldset>
 
-            <p>What type of bathroom is this?</p>
+            <p>Which best describes this shitter?</p>
+
             <fieldset>
 
-            <input type='radio' name='type' value='Porta-Potty'
+                <input type='radio' name='type' value='Porta-Potty'
                     onChange={e=>setType(e.target.value)}>
                 </input>
                 <label for='porta-potty'>Porta-Potty</label>
@@ -184,6 +211,7 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
                 </input>
                 <label for='if'>Private -- They only let you go if you buy something or are about to shit on the ground {'(E.g. car dealership, fancy restaurant, small store)'}</label>
 
+
             </fieldset>
 
             <p>Your Review</p>
@@ -198,5 +226,4 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
     )
 }
 
-export default CreateReview
-
+export default CreateBathroom
