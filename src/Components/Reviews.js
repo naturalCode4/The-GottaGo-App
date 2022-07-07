@@ -26,8 +26,9 @@ const Reviews = ({selectedBathroom}) => {
             {reviews.map(review => {
                 return (
                     <div>
-                        <h3>{review.overall} star</h3>
+                        <h3>{review.overall} Stars</h3>
                         <p>{review.text_review}</p>
+                        <br></br>
                     </div>
                 )
             })}

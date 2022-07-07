@@ -64,24 +64,25 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
             <h2>Mark a bathroom, for the people!</h2>
             <br></br>
 
-            <p>What should we call this bathroom?</p>
-            <input 
-                type='text' 
+            <h3>What should we call this bathroom?</h3>
+            <textarea 
                 style={{width: '95%'}}
                 placeholder="E.g. 'Chipotle', 'Whole Foods', 'Denver Art Museum', Etc."
                 onChange={e => setBathroomNameText(e.target.value)}
-            ></input>
+            ></textarea>
+            <br></br><br></br>
 
-            <p>Do you have an address for this bathroom?</p>
+            <h3>Do you have an address for this bathroom?</h3>
             <textarea 
                 maxLength='150'
                 style={{width: '95%'}}
                 placeholder="Let us know the address here"
                 onChange={e => setBathroomAddressText(e.target.value)}>
             </textarea>
+            <br></br><br></br>
 
 
-            <p>Rate this bathroom overall</p>
+            <h3>Rate this bathroom overall</h3>
             <fieldset>
 
                 <input type='radio' name='overall-rating' value='1'
@@ -114,8 +115,9 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
                 <label for='5'>5 Star: Exquisite!</label>
 
             </fieldset>
+            <br></br><br></br>
 
-            <p>Cleanliness</p>
+            <h3>Cleanliness</h3>
             <fieldset>
 
                 <input type='radio' name='cleanliness-rating' value='1'
@@ -148,8 +150,9 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
                 <label for='5'>5 Star</label>
             
             </fieldset>
+            <br></br><br></br>
 
-            <p>Crowdedness</p>
+            <h3>Crowdedness</h3>
             <fieldset>
 
                 <input type='radio' name='crowdedness-rating' value='1'
@@ -171,8 +174,9 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
                 <br></br>
 
             </fieldset>
+            <br></br><br></br>
 
-            <p>Which best describes this shitter?</p>
+            <h3>Which best describes this shitter?</h3>
 
             <fieldset>
 
@@ -197,7 +201,7 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
                 <input type='radio' name='type' value="Private -- they let you go consistently!"
                     onChange={e=>setType(e.target.value)}>
                 </input>
-                <label for='consistently'>Private -- They let you go consistently {'(E.g. a supermarket)'}</label>
+                <label for='consistently'>Private -- They let you go consistently {'(E.g. a supermarket, library)'}</label>
                 <br></br>
 
                 <input type='radio' name='type' value="Private -- you gotta be friendly or be a customer"
@@ -213,14 +217,16 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
 
 
             </fieldset>
+            <br></br><br></br>
 
-            <p>Your Review</p>
+            <h3>Your Review</h3>
             <textarea 
                 placeholder={textPlaceholder}
                 maxLength='255'
                 style={{width: '95%'}}
                 onChange={e => setTextReview(e.target.value)}
             />
+            <br></br><br></br><br></br>
             <input type='submit' value="Submit"/>
         </form>
     )

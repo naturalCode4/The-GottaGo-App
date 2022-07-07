@@ -35,9 +35,10 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
         setReviewDrawerIsOpen(false)
         console.log('newReview', newReview)
         const updatedBathroom = await postReviewAndUpdateBathroom(newReview)
-        console.log('updatedBathroom', updatedBathroom) 
-        bathrooms[bathrooms.indexOf(selectedBathroom)] = updatedBathroom
-        setSelectedBathroom(updatedBathroom)
+        const formattedBathroom = {...updatedBathroom, position: { lat: updatedBathroom.latitude, lng: updatedBathroom.longitude }}
+        console.log('formattedBathroom', formattedBathroom)
+        bathrooms[bathrooms.indexOf(selectedBathroom)] = formattedBathroom
+        setSelectedBathroom(formattedBathroom)
         setBathrooms([...bathrooms])
     }
 
@@ -55,7 +56,7 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
         <form onSubmit={handleSubmit} className="review">
             <h2>Write Your Review</h2>
             <br></br>
-            <p>Rate this bathroom overall</p>
+            <h3>Rate this bathroom overall</h3>
             <fieldset>
 
                 <input type='radio' name='overall-rating' value='1'
@@ -88,8 +89,9 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
                 <label for='5'>5 Star: Exquisite!</label>
 
             </fieldset>
+            <br></br><br></br>
 
-            <p>Cleanliness</p>
+            <h3>Cleanliness</h3>
             <fieldset>
 
                 <input type='radio' name='cleanliness-rating' value='1'
@@ -122,8 +124,9 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
                 <label for='5'>5 Star</label>
             
             </fieldset>
+            <br></br><br></br>
 
-            <p>Crowdedness</p>
+            <h3>Crowdedness</h3>
             <fieldset>
 
                 <input type='radio' name='crowdedness-rating' value='1'
@@ -145,8 +148,9 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
                 <br></br>
 
             </fieldset>
+            <br></br><br></br>
 
-            <p>What type of bathroom is this?</p>
+            <h3>What type of bathroom is this?</h3>
             <fieldset>
 
             <input type='radio' name='type' value='Porta-Potty'
@@ -170,7 +174,7 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
                 <input type='radio' name='type' value="Private -- they let you go consistently!"
                     onChange={e=>setType(e.target.value)}>
                 </input>
-                <label for='consistently'>Private -- They let you go consistently {'(E.g. a supermarket)'}</label>
+                <label for='consistently'>Private -- They let you go consistently {'(E.g. a supermarket, library)'}</label>
                 <br></br>
 
                 <input type='radio' name='type' value="Private -- you gotta be friendly or be a customer"
@@ -185,14 +189,17 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
                 <label for='if'>Private -- They only let you go if you buy something or are about to shit on the ground {'(E.g. car dealership, fancy restaurant, small store)'}</label>
 
             </fieldset>
+            <br></br><br></br>
 
-            <p>Your Review</p>
+            <h3>Your Review</h3>
             <textarea 
                 placeholder={textPlaceholder}
                 maxLength='255'
                 style={{width: '95%'}}
                 onChange={e => setTextReview(e.target.value)}
             />
+            <br></br><br></br><br></br>
+
             <input type='submit' value="Submit"/>
         </form>
     )

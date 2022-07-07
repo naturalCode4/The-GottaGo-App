@@ -20,7 +20,7 @@ const BathroomInfo = ({selectedBathroom}) => {
     // getBathroomInfo(selectedBathroom.id)
     
     return (
-        <div className="bathroom_info">
+        <div>
             <h2>{bathroom_name}</h2>
             <ul>
                 <li><b>Overall Rating:</b> {Math.round(ave_overall * 100) / 100} Stars</li>

@@ -23,16 +23,18 @@ const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpe
                 style:{ minHeight: '40%', maxHeight: '60%' }
             }}
         >
-            <BathroomInfo selectedBathroom={selectedBathroom} />
-
-            <button onClick={() => {
-                allReviewsDrawerIsOpen===false ? setAllReviewsDrawerIsOpen(true) : setAllReviewsDrawerIsOpen(false)}}
-                >See All Reviews!
-            </button>
-            <button onClick={() => {
-                reviewDrawerIsOpen===false ? setReviewDrawerIsOpen(true) : setReviewDrawerIsOpen(false)}}
-                >Leave a Review!
-            </button>
+            <div className='bathroom_info'>
+                <BathroomInfo selectedBathroom={selectedBathroom}/>
+                <button onClick={() => {
+                    allReviewsDrawerIsOpen===false ? setAllReviewsDrawerIsOpen(true) : setAllReviewsDrawerIsOpen(false)}}
+                    >See All Reviews!
+                </button>
+                <button onClick={() => {
+                    reviewDrawerIsOpen===false ? setReviewDrawerIsOpen(true) : setReviewDrawerIsOpen(false)}}
+                    >Leave a Review!
+                </button>
+            </div>
+            
         </SwipeableDrawer>
         <SwipeableDrawer
             anchor='left'
