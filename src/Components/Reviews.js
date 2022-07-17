@@ -22,13 +22,13 @@ const Reviews = ({selectedBathroom}) => {
 
     return (
         <div className="review">
-            <h2>Reviews for "{bathroom_name}"</h2>
+            <h2>Reviews for {bathroom_name}</h2>
             {reviews.map(review => {
                 return (
                     <div>
-                        <h3>{review.overall} Stars</h3>
+                        {review.overall && <h3>{review.overall} Stars</h3>}
                         <p>{review.text_review}</p>
-                        <br></br>
+                        {review.overall && <hr/>}
                     </div>
                 )
             })}

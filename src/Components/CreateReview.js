@@ -19,15 +19,9 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
         crowdednessRating,
         type,
         textReview,
+        bathroom_name: selectedBathroom.bathroom_name,
         bathroom_id: selectedBathroom.id,
     }
-
-    // const postReviewAndUpdateBathroom = async (newReview) => {
-    //     axios.post('http://localhost:4147/postreviewandupdatebathroom', newReview)
-    //     // const res = await axios.pos..... is quivolent to .then(res ......)
-    //     .then(res => setSelectedBathroom(res))
-    //     .catch(error => console.log(error))
-    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -54,7 +48,7 @@ const CreateReview = ({setReviewDrawerIsOpen, selectedBathroom, setSelectedBathr
 
     return (
         <form onSubmit={handleSubmit} className="review">
-            <h2>Write Your Review</h2>
+            <h2>Write Your Review for {newReview.bathroom_name}</h2>
             <br></br>
             <h3>Rate this bathroom overall</h3>
             <fieldset>

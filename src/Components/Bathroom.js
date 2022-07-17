@@ -7,11 +7,11 @@ import Reviews from './Reviews'
 
 const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpen, bathroomDrawerIsOpen, setBathrooms, bathrooms}) => {
         
-    console.log('hippeehippeehiii ', selectedBathroom)
-
     const [reviewDrawerIsOpen, setReviewDrawerIsOpen] = useState(false)
     const [allReviewsDrawerIsOpen, setAllReviewsDrawerIsOpen] = useState(false)
 
+    console.log('rendering Bathroom. Here is selectedBathroom:', selectedBathroom)
+    
     return (
     <div>
         <SwipeableDrawer
@@ -25,14 +25,18 @@ const Bathroom = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpe
         >
             <div className='bathroom_info'>
                 <BathroomInfo selectedBathroom={selectedBathroom}/>
-                <button onClick={() => {
-                    allReviewsDrawerIsOpen===false ? setAllReviewsDrawerIsOpen(true) : setAllReviewsDrawerIsOpen(false)}}
-                    >See All Reviews!
-                </button>
-                <button onClick={() => {
-                    reviewDrawerIsOpen===false ? setReviewDrawerIsOpen(true) : setReviewDrawerIsOpen(false)}}
-                    >Leave a Review!
-                </button>
+                <div id="see_and_leave_reviews_buttons_container">
+                    <button className="reviews_buttons"
+                        onClick={() => {
+                        allReviewsDrawerIsOpen===false ? setAllReviewsDrawerIsOpen(true) : setAllReviewsDrawerIsOpen(false)}}
+                        >See All Reviews!
+                    </button>
+                    <button className="reviews_buttons"
+                        onClick={() => {
+                        reviewDrawerIsOpen===false ? setReviewDrawerIsOpen(true) : setReviewDrawerIsOpen(false)}}
+                        >Leave a Review!
+                    </button>
+                </div>
             </div>
             
         </SwipeableDrawer>

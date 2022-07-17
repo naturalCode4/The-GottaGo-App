@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import {Map} from 'google-maps-react';
+import {ListItemAvatar} from '@mui/material'
+import { positions } from '@mui/system';
 const {postNewBathroomData, postReviewData} = require('../APIRequests/APIRequests')
 
 // const mapClickHandler = (mapProps, map, positionInfo) => {
@@ -23,7 +25,7 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
     const [textPlaceholder, setTextPlaceholder] = useState('')
 
     const newBathroomData = {
-        latitude, 
+        latitude,
         longitude,
         bathroomNameText,
         bathroomAddressText,
@@ -37,14 +39,21 @@ const CreateBathroom = ({setBathrooms, bathrooms, setCreateBathroomDrawerIsOpen,
     }
 
     const handleSubmit = async (e) => {
+        console.log(1)
         e.preventDefault()
         setCreateBathroomDrawerIsOpen(false)
+        console.log(2)
+        console.log(3, newBathroomData)
+        console.log(4, 'latitudeAndLongitudeOnDragend', latitudeAndLongitudeOnDragend)
         newBathroomData.latitude = latitudeAndLongitudeOnDragend.lat
         newBathroomData.longitude = latitudeAndLongitudeOnDragend.lng
+        console.log(5)
         setBathroomSubmission(newBathroomData)
+        console.log(6)
         console.log('Submitting newBathroomData: ', newBathroomData)
         const returnedNewBathroom = await postNewBathroomData(newBathroomData)
-        setBathrooms([...bathrooms, returnedNewBathroom.data])
+        const formattedNewBathroom = {...returnedNewBathroom.data, position: {lat: returnedNewBathroom.data.latitude, lng: returnedNewBathroom.data.longitude}}
+        setBathrooms([...bathrooms, formattedNewBathroom])
         setAddBathroomMode(false)
     }
 

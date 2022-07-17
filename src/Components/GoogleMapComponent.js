@@ -1,18 +1,29 @@
 import { memo, useState } from 'react'
 import { SwipeableDrawer } from '@mui/material';
 import {GoogleApiWrapper, Map, Marker} from 'google-maps-react';
-import BathroomModeButton from './BathroomModeButton';
+import BathroomModeButtons from './BathroomModeButtons';
 import CreateBathroom from './CreateBathroom';
 
 const GoogleMapComponent = ({selectedBathroom, setSelectedBathroom, setBathroomDrawerIsOpen, google, setBathrooms, bathrooms}) => {
 
     const [createBathroomDrawerIsOpen, setCreateBathroomDrawerIsOpen] = useState(false)
     const [addBathroomMode, setAddBathroomMode] = useState(false)
-    const [latitudeAndLongitudeOnDragend, setlatitudeAndLongitudeOnDragend] = useState({lat: null, lng: null})
+    const [latitudeAndLongitudeOnDragend, setLatitudeAndLongitudeOnDragend] = useState({lat: null, lng: null})
+
+    const [existingBathroomIcon] = useState({
+        url: "images/vector2.svg",
+        scaledSize: new google.maps.Size(60,60)
+    })
+    const [newBathroomIcon] = useState({
+        url: "images/vector1.svg",
+        scaledSize: new google.maps.Size(80,80),
+        anchor: new google.maps.Point(42,80)
+    })
 
     const onMarkerClick = (bathroom) => {
         console.log(bathroom)
         setSelectedBathroom(bathroom)
+        setAddBathroomMode(false)
         setBathroomDrawerIsOpen(true)
     }
 
@@ -22,12 +33,14 @@ const GoogleMapComponent = ({selectedBathroom, setSelectedBathroom, setBathroomD
             <Marker
                 position={bathroom.position}
                 onClick={() => onMarkerClick(bathroom)}
+                icon={existingBathroomIcon}
             />
         )
     }
 
     const mapDragHandler = (arg1, arg2, clickEvent) => {
-        setlatitudeAndLongitudeOnDragend({lat: clickEvent.latLng.lat(), lng: clickEvent.latLng.lng()})
+        setLatitudeAndLongitudeOnDragend({lat: clickEvent.latLng.lat(), lng: clickEvent.latLng.lng()})
+        console.log('latAndLng', latitudeAndLongitudeOnDragend)
     }
 
     //these values will become dynamic with user entering their starting position
@@ -39,8 +52,6 @@ const GoogleMapComponent = ({selectedBathroom, setSelectedBathroom, setBathroomD
     }
 
     console.log('render:', latitudeAndLongitudeOnDragend)
-
-    // const style = {height: "80%"}
 
     return (
         <div>
@@ -59,19 +70,18 @@ const GoogleMapComponent = ({selectedBathroom, setSelectedBathroom, setBathroomD
                         draggable={true} 
                         onDragend={mapDragHandler}
                         onClick={() => setCreateBathroomDrawerIsOpen(true)}
-                        icon={"http://maps.google.com/mapfiles/ms/icons/blue.png"}
-                        // but actually if the position could be static and you move the map that would be epic
+                        icon={newBathroomIcon}
                     />
                 }
                 
             </Map>
             <SwipeableDrawer
-                anchor='bottom'
+                anchor='left'
                 onOpen={() => {}}
                 onClose={() => setCreateBathroomDrawerIsOpen(false)}
                 open={createBathroomDrawerIsOpen}
                 PaperProps={{
-                    style:{maxWidth: '100%', maxHeight: '60%'}
+                    style:{maxWidth: '70%', maxHeight: '100%'}
                 }}
             >
                 <CreateBathroom
@@ -84,9 +94,10 @@ const GoogleMapComponent = ({selectedBathroom, setSelectedBathroom, setBathroomD
                     setSelectedBathroom={setSelectedBathroom}
                 />
             </SwipeableDrawer>
-            <BathroomModeButton 
+            <BathroomModeButtons 
                 addBathroomMode={addBathroomMode}
                 setAddBathroomMode={setAddBathroomMode}
+                setCreateBathroomDrawerIsOpen={setCreateBathroomDrawerIsOpen}
             />
         </div>
     )
